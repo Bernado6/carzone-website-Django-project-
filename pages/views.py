@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, TemplateView
 from . models import Team
+from cars.models import Car
 # Create your views here.
 # def home(request):
 #     teams = Team.objects.all()
@@ -15,8 +16,9 @@ class Home(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['teams'] = Team.objects.all().order_by('-id')
+        context['teams'] = Team.objects.all()
+        context['featured_cars'] = Car.objects.all().order_by('-created_date').filter(is_featured = True)
+        context['all_cars'] = Car.objects.all().order_by('-created_date')
         return context
 
 
